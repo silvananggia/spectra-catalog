@@ -1,70 +1,112 @@
-# Getting Started with Create React App
+# SPECTRA STAC Catalog Browser
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A React application for browsing and searching STAC (SpatioTemporal Asset Catalog) items from the SPECTRA STAC API.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- **Draw AOI (Area of Interest)**: Use Leaflet Draw tools to define a geographic area on the map
+- **Filter by Date Range**: Filter STAC items by start and end dates
+- **Filter by Collection**: Select one or more satellite collections to search
+- **Search STAC Items**: Search and display STAC items based on filters
+- **Display Results**: View STAC items with thumbnails, metadata, and asset information
 
-### `npm start`
+## Installation
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+1. Install dependencies:
+```bash
+npm install
+```
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+2. Create a `.env` file in the root directory:
+```env
+REACT_APP_STAC_API_URL=https://spectra.brin.go.id/stac
+```
 
-### `npm test`
+3. Start the development server:
+```bash
+npm start
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Project Structure
 
-### `npm run build`
+```
+src/
+├── api/
+│   └── axios.js              # Axios instance for STAC API
+├── components/
+│   ├── Catalog.js            # Main catalog component
+│   ├── Catalog.scss          # Styles for catalog
+│   ├── Skeleton.js           # Loading skeleton component
+│   └── Skeleton.scss          # Skeleton styles
+├── redux/
+│   ├── slices/
+│   │   └── stacCatalog.js    # Redux slice for STAC catalog state
+│   ├── rootReducer.js        # Root reducer
+│   └── store.js              # Redux store configuration
+├── router/
+│   └── index.js              # React Router configuration
+├── services/
+│   └── stac.service.js       # STAC API service functions
+├── App.js                    # Main App component
+└── index.js                  # Entry point
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Usage
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Drawing AOI
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+1. Click on the drawing tools in the map (rectangle or polygon)
+2. Draw your area of interest on the map
+3. The drawn geometry will be used as a spatial filter for STAC search
 
-### `npm run eject`
+### Filtering by Collection
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+1. Check one or more satellite collections from the list
+2. Only items from selected collections will be returned
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Filtering by Date
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+1. Select a start date (From)
+2. Select an end date (To)
+3. Only items within the date range will be returned
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### Searching
 
-## Learn More
+1. Set your filters (collections, date range, AOI)
+2. Click the "Search" button
+3. Results will be displayed in the results panel below the map
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Clearing Filters
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Click the "Clear" button to reset all filters and clear the search results.
 
-### Code Splitting
+## API Integration
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+The application connects to the STAC API at `https://spectra.brin.go.id/stac` and uses the following endpoints:
 
-### Analyzing the Bundle Size
+- `GET /collections` - Fetch all collections
+- `GET /collections/{collectionId}` - Fetch a specific collection
+- `POST /search` - Search STAC items with filters
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## Technologies Used
 
-### Making a Progressive Web App
+- React 19
+- Redux Toolkit
+- React Router
+- Leaflet & React Leaflet
+- Leaflet Draw
+- Axios
+- SCSS
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## Development
 
-### Advanced Configuration
+The project structure follows the same patterns as the main SPECTRA application:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+- Redux for state management
+- Service layer for API calls
+- Component-based architecture
+- SCSS for styling
 
-### Deployment
+## License
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+This project is part of the SPECTRA platform.

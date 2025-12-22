@@ -1,0 +1,84 @@
+// Responsive Breakpoints
+$breakpoints: (
+  'mobile': 0,
+  'tablet': 576px,
+  'laptop': 768px,
+  'desktop': 1024px,
+  'large-desktop': 1440px,
+);
+
+// Media Query Mixins
+@mixin respond-to($breakpoint) {
+  @if map-has-key($breakpoints, $breakpoint) {
+    $value: map-get($breakpoints, $breakpoint);
+    @if $value > 0 {
+      @media (min-width: $value) {
+        @content;
+      }
+    } @else {
+      @content;
+    }
+  } @else {
+    @warn "Unknown breakpoint: #{$breakpoint}";
+  }
+}
+
+// Max-width mixin (for mobile-first with max-width)
+@mixin respond-to-max($breakpoint) {
+  @if map-has-key($breakpoints, $breakpoint) {
+    $value: map-get($breakpoints, $breakpoint);
+    @if $value > 0 {
+      @media (max-width: $value - 1px) {
+        @content;
+      }
+    }
+  } @else {
+    @warn "Unknown breakpoint: #{$breakpoint}";
+  }
+}
+
+// Range mixin (between breakpoints)
+@mixin respond-to-range($min, $max) {
+  $min-value: map-get($breakpoints, $min);
+  $max-value: map-get($breakpoints, $max);
+  
+  @if $min-value and $max-value {
+    @media (min-width: $min-value) and (max-width: $max-value - 1px) {
+      @content;
+    }
+  } @else {
+    @warn "Unknown breakpoint in range";
+  }
+}
+
+// Common responsive utilities
+@mixin mobile-only {
+  @include respond-to-max('tablet') {
+    @content;
+  }
+}
+
+@mixin tablet-up {
+  @include respond-to('tablet') {
+    @content;
+  }
+}
+
+@mixin laptop-up {
+  @include respond-to('laptop') {
+    @content;
+  }
+}
+
+@mixin desktop-up {
+  @include respond-to('desktop') {
+    @content;
+  }
+}
+
+@mixin large-desktop-up {
+  @include respond-to('large-desktop') {
+    @content;
+  }
+}
+

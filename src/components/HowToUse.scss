@@ -1,0 +1,244 @@
+.how-to-use-container {
+  min-height: 100vh;
+  background: #f5f5f5;
+}
+
+.how-to-use-header {
+  background: #fff;
+  border-bottom: 1px solid #e0e0e0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .header-content {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .header-logo {
+    height: 50px;
+    width: auto;
+    object-fit: contain;
+  }
+
+  .header-text {
+    h1 {
+      margin: 0;
+      font-size: 1.5rem;
+      color: #333;
+    }
+
+    p {
+      margin: 0.25rem 0 0 0;
+      color: #666;
+      font-size: 0.9rem;
+    }
+  }
+
+  .back-button {
+    padding: 0.5rem 1rem;
+    background: #3388ff;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    transition: background 0.2s;
+
+    &:hover {
+      background: #2a6fd8;
+    }
+  }
+}
+
+.how-to-use-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.tutorial-section {
+  background: #fff;
+  border-radius: 8px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  h2 {
+    margin: 0 0 1.5rem 0;
+    font-size: 1.8rem;
+    color: #333;
+    border-bottom: 2px solid #3388ff;
+    padding-bottom: 0.5rem;
+  }
+
+  .step {
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid #e0e0e0;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    h3 {
+      margin: 0 0 1rem 0;
+      font-size: 1.3rem;
+      color: #3388ff;
+    }
+
+    p {
+      margin: 0.75rem 0;
+      line-height: 1.6;
+      color: #555;
+    }
+
+    ol, ul {
+      margin: 1rem 0;
+      padding-left: 2rem;
+      line-height: 1.8;
+
+      li {
+        margin: 0.5rem 0;
+        color: #555;
+      }
+    }
+
+    .code-block {
+      background: #f8f9fa;
+      border: 1px solid #e0e0e0;
+      border-radius: 4px;
+      padding: 1rem;
+      margin: 1rem 0;
+      overflow-x: auto;
+
+      code {
+        font-family: 'Courier New', monospace;
+        font-size: 0.9rem;
+        color: #333;
+        word-break: break-all;
+      }
+    }
+
+    .note {
+      background: #fff3cd;
+      border-left: 4px solid #ffc107;
+      padding: 0.75rem 1rem;
+      margin: 1rem 0;
+      border-radius: 4px;
+      font-size: 0.9rem;
+      color: #856404;
+
+      code {
+        background: #fff;
+        padding: 0.2rem 0.4rem;
+        border-radius: 3px;
+        font-size: 0.85rem;
+      }
+    }
+  }
+
+  .notes {
+    .note-item {
+      background: #f8f9fa;
+      border-left: 4px solid #3388ff;
+      padding: 1rem;
+      margin: 1rem 0;
+      border-radius: 4px;
+
+      strong {
+        display: block;
+        margin-bottom: 0.5rem;
+        color: #333;
+        font-size: 1.1rem;
+      }
+
+      p {
+        margin: 0.5rem 0;
+        color: #555;
+      }
+
+      ul {
+        margin: 0.5rem 0;
+        padding-left: 1.5rem;
+
+        li {
+          margin: 0.25rem 0;
+          color: #555;
+        }
+      }
+
+      code {
+        background: #fff;
+        padding: 0.2rem 0.4rem;
+        border-radius: 3px;
+        font-size: 0.85rem;
+        color: #d63384;
+      }
+    }
+  }
+
+  .example-urls {
+    .example {
+      margin: 1.5rem 0;
+
+      strong {
+        display: block;
+        margin-bottom: 0.5rem;
+        color: #333;
+      }
+
+      .code-block {
+        background: #f8f9fa;
+        border: 1px solid #e0e0e0;
+        border-radius: 4px;
+        padding: 1rem;
+        margin: 0.5rem 0;
+        overflow-x: auto;
+
+        code {
+          font-family: 'Courier New', monospace;
+          font-size: 0.85rem;
+          color: #333;
+          word-break: break-all;
+          white-space: pre-wrap;
+        }
+      }
+    }
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .how-to-use-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+
+    .back-button {
+      width: 100%;
+      text-align: center;
+    }
+  }
+
+  .how-to-use-content {
+    padding: 1rem;
+  }
+
+  .tutorial-section {
+    padding: 1.5rem;
+
+    h2 {
+      font-size: 1.5rem;
+    }
+
+    .step {
+      h3 {
+        font-size: 1.1rem;
+      }
+    }
+  }
+}
+

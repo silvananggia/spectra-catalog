@@ -1,0 +1,33 @@
+// Color Variables
+$primary-dark-blue: #003366;
+$primary-blue: #3182ce;
+$primary-blue-hover: #2c5282;
+$primary-dark-blue-hover: #2c5282;
+$secondary-cyan: #0099FF;
+$primary-red: #dc2626;
+$text-dark-gray: #333333;
+$bg-light-gray: #F5F5F5;
+$white: #FFFFFF;
+
+// Responsive Breakpoints
+$mobile-max: 575px;
+$tablet-min: 576px;
+$tablet-max: 767px;
+$laptop-min: 768px;
+$laptop-max: 1023px;
+$desktop-min: 1024px;
+$desktop-max: 1439px;
+$large-desktop-min: 1440px;
+
+// CSS Variables (for backward compatibility)
+:root {
+    --primary-dark-blue: #{$primary-dark-blue};
+    --primary-blue: #{$primary-blue};
+    --primary-blue-hover: #{$primary-blue-hover};
+    --primary-dark-blue-hover: #{$primary-dark-blue-hover};
+    --secondary-cyan: #{$secondary-cyan};
+    --primary-red: #{$primary-red};
+    --text-dark-gray: #{$text-dark-gray};
+    --bg-light-gray: #{$bg-light-gray};
+    --white: #{$white};
+}

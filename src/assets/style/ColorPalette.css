@@ -1,0 +1,32 @@
+/* ColorPalette.css - This file is kept for backward compatibility */
+/* For new styles, please use the SCSS files in ../scss/ */
+
+:root {
+    --primary-dark-blue: #003366;
+    --secondary-cyan: #0099FF;
+    --text-dark-gray: #333333;
+    --bg-light-gray: #F5F5F5;
+    --white: #FFFFFF;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    color: var(--text-dark-gray);
+    background-color: var(--white);
+}
+
+.btn-primary {
+    background-color: var(--secondary-cyan);
+    color: var(--white);
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-primary:hover {
+    background-color: #007ACC;
+}
