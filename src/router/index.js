@@ -26,7 +26,6 @@ function MyRouter() {
     <Suspense fallback={<LoadingFallback />}>
       <Routes>
         <Route path="/" element={<Catalog />} />
-        <Route path="/catalog" element={<Catalog />} />
         <Route path="/how-to-use" element={<HowToUse />} />
       </Routes>
     </Suspense>

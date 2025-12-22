@@ -12,7 +12,7 @@ import './index.css';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <BrowserRouter>
+    <BrowserRouter basename="/catalog">
       <Provider store={store}>
         <App />
       </Provider>
