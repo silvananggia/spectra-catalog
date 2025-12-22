@@ -18,7 +18,7 @@ const HowToUse = () => {
             <p>Guide for QGIS and ArcGIS</p>
           </div>
         </div>
-        <Link to="/catalog" className="back-button">
+        <Link to="/" className="back-button">
           ← Back to Catalog
         </Link>
       </div>

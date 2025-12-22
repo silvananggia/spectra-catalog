@@ -43,6 +43,10 @@
   }
 
   .header-menu {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+
     .menu-link {
       padding: 0.5rem 1rem;
       background: #3388ff;
@@ -60,6 +64,12 @@
   }
 }
 
+// Hide filter toggle button on desktop (will be overridden in mobile media query)
+.catalog-content .filters-toggle-btn,
+.map-results-container .filters-toggle-btn {
+  display: none; // Hidden on desktop
+}
+
 .catalog-content {
   display: flex;
   flex: 1;
@@ -72,6 +82,21 @@
   padding: 1rem;
   overflow-y: auto;
   border-right: 1px solid #e0e0e0;
+
+  .filters-panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+
+    h2 {
+      margin: 0;
+    }
+
+    .filters-close-btn {
+      display: none; // Hidden on desktop
+    }
+  }
 
   h2 {
     margin: 0 0 1rem 0;
@@ -281,6 +306,7 @@
   flex-direction: column;
   flex: 1;
   overflow: hidden;
+  position: relative;
 }
 
 .map-container {
@@ -342,6 +368,10 @@
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+.info-panel-toggle-btn {
+  display: none; // Hidden on desktop
 }
 
 .map-instructions {
@@ -586,5 +616,551 @@
   font-size: 0.85rem;
   font-weight: 500;
   text-align: center;
+}
+
+// Mobile Responsive Styles
+@media (max-width: 768px) {
+  .catalog-container {
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  .catalog-header {
+    padding: 0.75rem 1rem;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+
+    .header-content {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .header-logo {
+      height: 40px;
+    }
+
+    .header-text {
+      h1 {
+        font-size: 1.2rem;
+      }
+
+      p {
+        font-size: 0.8rem;
+      }
+    }
+
+    .header-menu {
+      width: 100%;
+      order: 3;
+
+      .menu-link {
+        width: 100%;
+        text-align: center;
+        padding: 0.6rem;
+        font-size: 0.85rem;
+      }
+    }
+  }
+
+  .catalog-content {
+    flex-direction: column;
+    position: relative;
+  }
+
+  .map-results-container {
+    position: relative;
+  }
+
+  .filters-toggle-btn {
+    display: block !important; // Override desktop hidden state
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1001;
+    width: 100%;
+    padding: 0.75rem;
+    background: #3388ff;
+    color: #fff;
+    border: none;
+    border-bottom: 1px solid #2a6fd8;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background 0.2s;
+
+    &:hover {
+      background: #2a6fd8;
+    }
+
+    &:active {
+      background: #1f5bb5;
+    }
+  }
+
+  .filters-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 9998; // Above all Leaflet controls (Leaflet uses z-index up to ~1000)
+    display: block;
+  }
+
+  .filters-panel {
+    width: 100%;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+    padding: 0;
+    border-right: none;
+    border-bottom: 1px solid #e0e0e0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 9999 !important; // Above overlay and all Leaflet controls (draw, info, attribution, zoom)
+    background: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+
+    .filters-panel-header {
+      position: sticky;
+      top: 0;
+      background: #fff;
+      padding: 1rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid #e0e0e0;
+      margin-bottom: 1rem;
+      z-index: 1;
+
+      .filters-close-btn {
+        display: block;
+        background: #f44336;
+        color: #fff;
+        border: none;
+        border-radius: 50%;
+        width: 32px;
+        height: 32px;
+        font-size: 1.2rem;
+        cursor: pointer;
+        transition: background 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+
+        &:hover {
+          background: #d32f2f;
+        }
+
+        &:active {
+          background: #b71c1c;
+        }
+      }
+    }
+
+    &.filters-panel-open {
+      max-height: 100vh;
+      padding: 0;
+      padding-top: 0;
+      overflow-y: auto;
+
+      .filter-section,
+      .filter-actions {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+
+      .filter-section:last-of-type {
+        padding-bottom: 1rem;
+      }
+    }
+
+    h2 {
+      font-size: 1.1rem;
+      margin-bottom: 0.75rem;
+    }
+
+    h3 {
+      font-size: 0.95rem;
+    }
+  }
+
+  .filter-section {
+    margin-bottom: 1rem;
+
+    .filter-description {
+      font-size: 0.8rem;
+    }
+  }
+
+  .collection-actions {
+    flex-wrap: wrap;
+    gap: 0.25rem;
+  }
+
+  .btn-select-all,
+  .btn-deselect-all {
+    font-size: 0.7rem;
+    padding: 0.25rem 0.5rem;
+  }
+
+  .collections-list {
+    max-height: 150px;
+  }
+
+  .date-inputs {
+    gap: 0.75rem;
+  }
+
+  .filter-actions {
+    flex-direction: column;
+    gap: 0.5rem;
+
+    .btn-search,
+    .btn-clear {
+      width: 100%;
+    }
+  }
+
+  .map-results-container {
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .map-container {
+    height: 40vh;
+    min-height: 250px;
+    max-height: 50vh;
+    border-bottom: 1px solid #e0e0e0;
+    position: relative;
+    overflow: hidden;
+    margin-top: 50px; // Space for filter button
+  }
+
+  .info-panel-toggle-btn {
+    display: block;
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    z-index: 1002;
+    padding: 0.6rem 0.9rem;
+    background: #3388ff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    transition: background 0.2s;
+
+    &:hover {
+      background: #2a6fd8;
+    }
+
+    &:active {
+      background: #1f5bb5;
+    }
+  }
+
+  .map-instructions {
+    bottom: 60px; // Above toggle button
+    left: 5px;
+    right: 5px;
+    max-width: none;
+    padding: 0;
+    font-size: 0.8rem;
+    z-index: 1001;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out, padding 0.3s ease-out, opacity 0.3s ease-out;
+    opacity: 0;
+
+    &.info-panel-open {
+      max-height: 300px;
+      opacity: 1;
+      padding: 0.75rem;
+    }
+
+    p {
+      font-size: 0.75rem;
+      line-height: 1.4;
+
+      &:first-child {
+        margin-bottom: 0.25rem;
+      }
+    }
+
+    .btn-toggle-extents {
+      margin-top: 0.5rem;
+      padding: 0.4rem 0.6rem;
+      font-size: 0.75rem;
+    }
+  }
+
+  // Leaflet controls positioning for mobile
+  .leaflet-bottom.leaflet-right {
+    .leaflet-control-zoom {
+      margin: 5px 5px;
+      z-index: 1002; // Above map instructions
+    }
+  }
+
+  // Ensure Leaflet Draw controls don't overlap
+  .leaflet-draw-toolbar {
+    margin-top: 0;
+    margin-left: 0;
+  }
+
+  .leaflet-draw-toolbar-top {
+    margin-top: 0;
+  }
+
+  .results-panel {
+    flex: 1;
+    padding: 0.75rem;
+    min-height: 0;
+
+    h2 {
+      font-size: 1.1rem;
+      margin-bottom: 0.75rem;
+    }
+  }
+
+  .items-list {
+    gap: 0.75rem;
+  }
+
+  .item-card {
+    flex-direction: column;
+    padding: 0.75rem;
+    gap: 0.75rem;
+
+    &.item-card-selected {
+      transform: none;
+    }
+  }
+
+  .item-thumbnail {
+    width: 100%;
+    height: 150px;
+  }
+
+  .item-content {
+    h3 {
+      font-size: 0.95rem;
+    }
+
+    .item-date,
+    .item-description {
+      font-size: 0.85rem;
+    }
+  }
+
+  .item-assets {
+    font-size: 0.8rem;
+
+    ul {
+      li.asset-item {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.5rem;
+        padding: 0.75rem;
+      }
+    }
+
+    .asset-content {
+      width: 100%;
+      min-width: 0; // Prevent overflow
+    }
+
+    .xyz-address {
+      font-size: 0.75rem;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .xyz-label {
+      font-size: 0.7rem;
+    }
+
+    .xyz-url {
+      font-size: 0.7rem;
+      padding: 0.3rem 0.5rem;
+      word-break: break-all;
+      overflow-wrap: break-word;
+      max-width: 100%;
+      display: block;
+    }
+
+    .copy-xyz-btn {
+      width: 100%;
+      padding: 0.5rem;
+      font-size: 0.8rem;
+      margin-top: 0.25rem;
+    }
+  }
+
+  .item-selected-indicator {
+    font-size: 0.8rem;
+    padding: 0.4rem;
+  }
+}
+
+// Small mobile devices (max-width: 480px)
+@media (max-width: 480px) {
+  .catalog-header {
+    padding: 0.5rem 0.75rem;
+
+    .header-logo {
+      height: 35px;
+    }
+
+    .header-text {
+      h1 {
+        font-size: 1rem;
+      }
+
+      p {
+        font-size: 0.75rem;
+      }
+    }
+  }
+
+  .filters-panel {
+    &.filters-panel-open {
+      max-height: 100vh;
+      padding: 0;
+      padding-top: 0;
+
+      .filters-panel-header {
+        padding: 0.75rem;
+        padding-top: 70px; // Space for smaller header
+      }
+
+      .filter-section,
+      .filter-actions {
+        padding-left: 0.75rem;
+        padding-right: 0.75rem;
+      }
+
+      .filter-section:last-of-type {
+        padding-bottom: 0.75rem;
+      }
+    }
+  }
+
+  .catalog-header {
+    padding: 0.5rem 0.75rem;
+
+    .header-logo {
+      height: 30px;
+    }
+
+    .header-text {
+      h1 {
+        font-size: 0.9rem;
+      }
+
+      p {
+        font-size: 0.7rem;
+      }
+    }
+
+    .header-menu {
+      .menu-link {
+        font-size: 0.75rem;
+        padding: 0.4rem 0.6rem;
+      }
+    }
+  }
+
+  .filters-toggle-btn {
+    font-size: 0.85rem;
+    padding: 0.6rem;
+  }
+
+  .map-container {
+    margin-top: 45px; // Smaller space for smaller button
+  }
+
+  .map-container {
+    height: 35vh;
+    min-height: 200px;
+  }
+
+  .info-panel-toggle-btn {
+    bottom: 5px;
+    left: 5px;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.75rem;
+  }
+
+  .map-instructions {
+    bottom: 55px; // Above toggle button
+    font-size: 0.65rem;
+    padding: 0;
+
+    &.info-panel-open {
+      max-height: 250px;
+      padding: 0.6rem;
+    }
+
+    p {
+      font-size: 0.65rem;
+    }
+
+    .btn-toggle-extents {
+      font-size: 0.65rem;
+      padding: 0.3rem 0.4rem;
+    }
+  }
+
+  .item-thumbnail {
+    height: 120px;
+  }
+
+  .item-assets {
+    .xyz-url {
+      font-size: 0.65rem;
+      padding: 0.25rem 0.4rem;
+    }
+
+    .copy-xyz-btn {
+      font-size: 0.75rem;
+      padding: 0.4rem;
+    }
+  }
+
+  .info-panel-toggle-btn {
+    bottom: 5px;
+    left: 5px;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.75rem;
+  }
+
+  .map-instructions {
+    bottom: 50px; // Above toggle button
+    font-size: 0.65rem;
+    padding: 0.35rem 0.5rem;
+
+    &.info-panel-open {
+      max-height: 250px;
+      padding: 0.6rem;
+    }
+
+    p {
+      font-size: 0.65rem;
+    }
+
+    .btn-toggle-extents {
+      font-size: 0.65rem;
+      padding: 0.3rem 0.4rem;
+    }
+  }
 }
 

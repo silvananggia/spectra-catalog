@@ -561,6 +561,8 @@ const Catalog = () => {
   const [showExtentOnly, setShowExtentOnly] = useState(false);
   const [showAllExtents, setShowAllExtents] = useState(true);
   const [tilesLoading, setTilesLoading] = useState(false);
+  const [showInfoPanel, setShowInfoPanel] = useState(false);
+  const [filtersPanelOpen, setFiltersPanelOpen] = useState(false);
   const mapRef = useRef(null);
   const itemRefs = useRef({});
   const resultsPanelRef = useRef(null);
@@ -878,9 +880,26 @@ const Catalog = () => {
       </div>
 
       <div className="catalog-content">
+        {/* Overlay for mobile filters */}
+        {filtersPanelOpen && (
+          <div 
+            className="filters-overlay"
+            onClick={() => setFiltersPanelOpen(false)}
+          />
+        )}
+        
         {/* Filters Panel */}
-        <div className="filters-panel">
-          <h2>Filters</h2>
+        <div className={`filters-panel ${filtersPanelOpen ? 'filters-panel-open' : ''}`}>
+          <div className="filters-panel-header">
+            <h2>Filters</h2>
+            <button
+              className="filters-close-btn"
+              onClick={() => setFiltersPanelOpen(false)}
+              aria-label="Close filters"
+            >
+              ✕
+            </button>
+          </div>
 
           {/* Collection Filter */}
           <div className="filter-section">
@@ -982,6 +1001,15 @@ const Catalog = () => {
 
         {/* Map and Results */}
         <div className="map-results-container">
+          {/* Mobile Filters Toggle Button - Above Map */}
+          <button
+            className="filters-toggle-btn"
+            onClick={() => setFiltersPanelOpen(!filtersPanelOpen)}
+            aria-label="Toggle filters"
+          >
+            {filtersPanelOpen ? '✕ Close Filters' : '☰ Filters'}
+          </button>
+          
           {/* Map */}
           <div className="map-container">
             <MapContainer
@@ -1033,7 +1061,16 @@ const Catalog = () => {
                 </div>
               </div>
             )}
-            <div className="map-instructions">
+            {/* Mobile Info Panel Toggle Button */}
+            <button
+              className="info-panel-toggle-btn"
+              onClick={() => setShowInfoPanel(!showInfoPanel)}
+              aria-label="Toggle information panel"
+            >
+              {showInfoPanel ? '✕ Close Info' : 'ℹ️ Information'}
+            </button>
+            
+            <div className={`map-instructions ${showInfoPanel ? 'info-panel-open' : ''}`}>
               <p>Use the drawing tools to define an Area of Interest (AOI)</p>
               <p style={{ marginTop: '0.5rem', fontSize: '0.85rem' }}>
                 Click on extent borders on the map to select data
