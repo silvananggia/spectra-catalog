@@ -649,18 +649,39 @@ const Catalog = () => {
   };
 
   const handleSearch = () => {
-    const params = {
-      collections: selectedCollections.length > 0 ? selectedCollections : undefined,
-      startDate: startDate ? new Date(startDate) : null,
-      endDate: endDate ? new Date(endDate) : null,
-      geoJson: drawnGeometry || null,
-    };
+    const params = {};
 
-    // Remove undefined values
-    Object.keys(params).forEach((key) => {
-      if (params[key] === undefined || params[key] === null) {
-        delete params[key];
+    // Add collections if any selected
+    if (selectedCollections.length > 0) {
+      params.collections = selectedCollections;
+    }
+
+    // Add date range - support single date or range
+    if (startDate || endDate) {
+      if (startDate) {
+        params.startDate = new Date(startDate);
       }
+      if (endDate) {
+        params.endDate = new Date(endDate);
+      }
+    }
+
+    // Add geometry (polygon/rectangle) if drawn
+    if (drawnGeometry) {
+      params.geoJson = drawnGeometry;
+      console.log('Drawn geometry:', {
+        type: drawnGeometry.type,
+        coordinates: drawnGeometry.coordinates ? 'present' : 'missing',
+        fullGeometry: drawnGeometry
+      });
+    }
+
+    console.log('Search parameters:', {
+      collections: params.collections,
+      startDate: params.startDate,
+      endDate: params.endDate,
+      hasGeometry: !!params.geoJson,
+      geometryType: params.geoJson?.type,
     });
 
     dispatch(searchItemsAsync(params));

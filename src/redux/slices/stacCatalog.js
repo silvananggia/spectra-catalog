@@ -59,14 +59,28 @@ export const searchItemsAsync = createAsyncThunk(
       }
 
       // Convert GeoJSON geometry if provided
+      // STAC API uses "intersects" parameter for spatial filtering
       if (params.geoJson) {
-        params.geometry = geoJsonToGeometry(params.geoJson);
+        const geometry = geoJsonToGeometry(params.geoJson);
+        if (geometry) {
+          // STAC API expects "intersects" not "geometry"
+          params.intersects = geometry;
+          console.log('Geometry converted for search (intersects):', {
+            type: geometry.type,
+            coordinates: geometry.coordinates ? 'present' : 'missing',
+            firstCoordinate: geometry.coordinates?.[0]?.[0]?.[0],
+            geometry: geometry
+          });
+        }
         delete params.geoJson;
       }
 
-      // Format date range if provided
-      if (params.startDate && params.endDate) {
-        params.datetime = formatDateRange(params.startDate, params.endDate);
+      // Format date range if provided (supports single date or range)
+      if (params.startDate || params.endDate) {
+        const datetime = formatDateRange(params.startDate, params.endDate);
+        if (datetime) {
+          params.datetime = datetime;
+        }
         delete params.startDate;
         delete params.endDate;
       }
