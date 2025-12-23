@@ -75,6 +75,66 @@ const ZoomControlPosition = () => {
   return null;
 };
 
+// Base Map Layer Component
+const BaseMapLayer = ({ baseMap }) => {
+  const map = useMap();
+  const tileLayerRef = useRef(null);
+
+  // Base map configurations
+  const baseMaps = {
+    carto: {
+      url: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+    },
+    osm: {
+      url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    },
+    googleHybrid: {
+      url: 'https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}',
+      attribution: '&copy; <a href="https://www.google.com/maps">Google Maps</a>',
+    },
+    terrain: {
+      url: 'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a>',
+    },
+  };
+
+  useEffect(() => {
+    // Remove existing tile layer
+    if (tileLayerRef.current && map.hasLayer(tileLayerRef.current)) {
+      map.removeLayer(tileLayerRef.current);
+      tileLayerRef.current = null;
+    }
+
+    // Get base map configuration
+    const baseMapConfig = baseMaps[baseMap];
+    if (!baseMapConfig) {
+      console.warn('Unknown base map:', baseMap);
+      return;
+    }
+
+    // Create new tile layer
+    const tileLayer = L.tileLayer(baseMapConfig.url, {
+      attribution: baseMapConfig.attribution,
+      crossOrigin: true,
+      maxZoom: 19,
+    });
+
+    tileLayer.addTo(map);
+    tileLayerRef.current = tileLayer;
+
+    return () => {
+      if (tileLayerRef.current && map.hasLayer(tileLayerRef.current)) {
+        map.removeLayer(tileLayerRef.current);
+        tileLayerRef.current = null;
+      }
+    };
+  }, [map, baseMap]);
+
+  return null;
+};
+
 // Hover Extent Layer Component (shows extent on hover)
 const HoverExtentLayer = ({ item }) => {
   const map = useMap();
@@ -563,6 +623,8 @@ const Catalog = () => {
   const [tilesLoading, setTilesLoading] = useState(false);
   const [showInfoPanel, setShowInfoPanel] = useState(false);
   const [filtersPanelOpen, setFiltersPanelOpen] = useState(false);
+  const [baseMap, setBaseMap] = useState('carto'); // Default: Carto
+  const [showBaseMapMenu, setShowBaseMapMenu] = useState(false);
   const mapRef = useRef(null);
   const itemRefs = useRef({});
   const resultsPanelRef = useRef(null);
@@ -1041,11 +1103,7 @@ const Catalog = () => {
             >
               <MapRefSetter mapRef={mapRef} featureGroup={featureGroupRef.current} />
               <ZoomControlPosition />
-              <TileLayer
-                url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
-                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
-                crossOrigin={true}
-              />
+              <BaseMapLayer baseMap={baseMap} />
               <DrawControl
                 onDrawCreated={handleDrawCreated}
                 onDrawEdited={handleDrawEdited}
@@ -1082,6 +1140,70 @@ const Catalog = () => {
                 </div>
               </div>
             )}
+            {/* Base Map Button - Above Info Panel */}
+            <button
+              className="base-map-toggle-btn"
+              onClick={() => setShowBaseMapMenu(!showBaseMapMenu)}
+              aria-label="Change base map"
+              title="Change base map"
+            >
+              Base Map
+            </button>
+
+            {/* Base Map Menu */}
+            {showBaseMapMenu && (
+              <div className="base-map-menu">
+                <div className="base-map-menu-header">
+                  <span>Select Base Map</span>
+                  <button
+                    className="base-map-menu-close"
+                    onClick={() => setShowBaseMapMenu(false)}
+                    aria-label="Close base map menu"
+                  >
+                    ✕
+                  </button>
+                </div>
+                <div className="base-map-options">
+                  <button
+                    className={`base-map-option ${baseMap === 'carto' ? 'active' : ''}`}
+                    onClick={() => {
+                      setBaseMap('carto');
+                      setShowBaseMapMenu(false);
+                    }}
+                  >
+                    Carto (Light)
+                  </button>
+                  <button
+                    className={`base-map-option ${baseMap === 'osm' ? 'active' : ''}`}
+                    onClick={() => {
+                      setBaseMap('osm');
+                      setShowBaseMapMenu(false);
+                    }}
+                  >
+                    OpenStreetMap
+                  </button>
+                  <button
+                    className={`base-map-option ${baseMap === 'googleHybrid' ? 'active' : ''}`}
+                    onClick={() => {
+                      setBaseMap('googleHybrid');
+                      setShowBaseMapMenu(false);
+                    }}
+                  >
+                    Google Hybrid Satellite
+                  </button>
+                  <button
+                    className={`base-map-option ${baseMap === 'terrain' ? 'active' : ''}`}
+                    onClick={() => {
+                      setBaseMap('terrain');
+                      setShowBaseMapMenu(false);
+                    }}
+                  >
+                    Terrain (OpenTopoMap)
+                  </button>
+                </div>
+              </div>
+            )}
+
             {/* Mobile Info Panel Toggle Button */}
             <button
               className="info-panel-toggle-btn"

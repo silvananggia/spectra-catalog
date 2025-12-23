@@ -309,6 +309,108 @@
   position: relative;
 }
 
+.base-map-toggle-btn {
+  position: absolute;
+  bottom: 100px; // Above info panel (which is at bottom: 10px)
+  left: 10px; // Same position as info panel
+  z-index: 1002;
+  padding: 0.6rem 0.9rem;
+  background: #28a745;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  transition: background 0.2s;
+
+  &:hover {
+    background: #218838;
+  }
+
+  &:active {
+    background: #1e7e34;
+  }
+}
+
+.base-map-menu {
+  position: absolute;
+  bottom: 110px; // Above base map toggle button (which is at bottom: 60px)
+  left: 10px; // Aligned with base map button
+  background: rgba(255, 255, 255, 0.98);
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  z-index: 1003;
+  min-width: 200px;
+  max-width: 300px;
+
+  .base-map-menu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem;
+    border-bottom: 1px solid #e0e0e0;
+    font-weight: 500;
+    font-size: 0.9rem;
+    color: #333;
+
+    .base-map-menu-close {
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      cursor: pointer;
+      color: #666;
+      padding: 0;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+      transition: background 0.2s;
+
+      &:hover {
+        background: #f0f0f0;
+      }
+    }
+  }
+
+  .base-map-options {
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem;
+
+    .base-map-option {
+      padding: 0.6rem 0.75rem;
+      border: none;
+      background: #fff;
+      text-align: left;
+      cursor: pointer;
+      border-radius: 4px;
+      font-size: 0.9rem;
+      color: #333;
+      transition: all 0.2s;
+      margin-bottom: 0.25rem;
+
+      &:hover {
+        background: #f0f7ff;
+        color: #3388ff;
+      }
+
+      &.active {
+        background: #3388ff;
+        color: #fff;
+        font-weight: 500;
+      }
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+
 .map-container {
   height: 50%;
   position: relative;
@@ -376,13 +478,13 @@
 
 .map-instructions {
   position: absolute;
-  bottom: 10px;
+  bottom: 10px; // At bottom
   left: 10px;
   background: rgba(255, 255, 255, 0.95);
   padding: 0.75rem 1rem;
   border-radius: 4px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  z-index: 1000;
+  z-index: 1001; // Below base map menu (1003)
   max-width: 320px;
   font-size: 0.9rem;
   color: #333;
@@ -838,7 +940,6 @@
     border-bottom: 1px solid #e0e0e0;
     position: relative;
     overflow: hidden;
-    margin-top: 50px; // Space for filter button
   }
 
   .info-panel-toggle-btn {
@@ -1077,6 +1178,7 @@
         padding: 0.4rem 0.6rem;
       }
     }
+
   }
 
   .filters-toggle-btn {
@@ -1100,8 +1202,22 @@
     font-size: 0.75rem;
   }
 
+  .base-map-toggle-btn {
+    bottom: 55px;
+    left: 5px;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.75rem;
+  }
+
+  .base-map-menu {
+    bottom: 100px;
+    left: 5px;
+    min-width: 180px;
+    max-width: 250px;
+  }
+
   .map-instructions {
-    bottom: 55px; // Above toggle button
+    bottom: 100px; // Above base map toggle button
     font-size: 0.65rem;
     padding: 0;
 
