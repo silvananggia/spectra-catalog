@@ -629,11 +629,22 @@ const Catalog = () => {
   const itemRefs = useRef({});
   const resultsPanelRef = useRef(null);
   const featureGroupRef = useRef(new L.FeatureGroup());
+  const hasInitialSearchRef = useRef(false);
 
   // Fetch collections on mount
   useEffect(() => {
     dispatch(fetchCollectionsAsync());
   }, [dispatch]);
+
+  // Auto-search on first load to show available data
+  useEffect(() => {
+    // Only run once when collections are loaded and we haven't searched yet
+    if (!hasInitialSearchRef.current && collections.length > 0 && !loading) {
+      hasInitialSearchRef.current = true;
+      // Trigger search with no filters to show all available data
+      dispatch(searchItemsAsync({}));
+    }
+  }, [collections, loading, dispatch]);
 
   // Sync local state with Redux
   useEffect(() => {
@@ -1284,6 +1295,11 @@ const Catalog = () => {
                       <div className="item-content">
                         <h3>{item.id}</h3>
                         <p className="item-date">{new Date(date).toLocaleDateString()}</p>
+                        {item.collection && (
+                          <p className="item-collection" style={{ margin: '0.25rem 0', fontSize: '0.9rem', color: '#666' }}>
+                            <strong>Collection:</strong> {item.collection}
+                          </p>
+                        )}
                         {item.properties?.description && (
                           <p className="item-description">{item.properties.description}</p>
                         )}
